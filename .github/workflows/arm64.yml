@@ -26,14 +26,14 @@ jobs:
         done
 
     - name: Compress the TAR files
-      run: tar -czf images.tar.gz *-amd64.tar
+      run: tar -czf arm64-images.tar.gz *-arm64.tar
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
         name: docker-images-tar
-        path: images.tar.gz
+        path: arm64-images.tar.gz
 
     - name: Clean up intermediate files
       run: |
-        rm *-amd64.tar
+        rm *-arm64.tar
