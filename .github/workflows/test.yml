@@ -6,7 +6,7 @@ on:
       docker_images:
         description: 'Comma-separated list of Docker images to pull'
         required: true
-        default: 'wukongdaily/box:latest,haroldli/xiaoya-tvbox:latest'
+        default: 'alpine:latest,ubuntu:latest'
       platform:
         description: 'Platform architecture (e.g., amd64, arm64)'
         required: true
@@ -35,6 +35,9 @@ jobs:
           docker save "$image" -o "${image_name}.tar"
           tar -czf "${image_name}.tar.gz" "${image_name}.tar"
           rm -f "${image_name}.tar"
+          
+          # Save image information to environment file
+          echo "${image}_IMAGE_PATH=${{ runner.temp }}/${image_name}.tar.gz" >> $GITHUB_ENV
         done
 
     - name: Clean up intermediate files
