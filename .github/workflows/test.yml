@@ -6,7 +6,11 @@ on:
       docker_images:
         description: 'Comma-separated list of Docker images to pull'
         required: true
-        default: 'alpine:latest,ubuntu:latest'  # 你可以设置一个默认值
+        default: 'wukongdaily/box:latest,haroldli/xiaoya-tvbox:latest'
+      platform:
+        description: 'Platform architecture (e.g., amd64, arm64)'
+        required: true
+        default: 'amd64'
 
 jobs:
   pull_and_package:
@@ -16,20 +20,29 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Pull Docker Images
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Pull, Save, and Compress Docker Images
       run: |
         images="${{ github.event.inputs.docker_images }}"
+        platform="${{ github.event.inputs.platform }}"
         IFS=',' read -r -a image_array <<< "$images"
         for image in "${image_array[@]}"; do
-          docker pull "$image"
-          docker save "$image" -o "${image//\//_}.tar"
+          echo "Pulling $image for platform $platform"
+          docker pull --platform "$platform" "$image"
+          image_name="${image//\//_}_${platform}"
+          docker save "$image" -o "${image_name}.tar"
+          tar -czf "${image_name}.tar.gz" "${image_name}.tar"
+          rm -f "${image_name}.tar"
         done
 
-    - name: Compress the TAR files
-      run: tar -czf images.tar.gz *.tar
+    - name: Clean up intermediate files
+      run: |
+        rm -f *.tar
 
-    - name: Upload artifact
+    - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
         name: docker-images-tar
-        path: images.tar.gz
+        path: '*.tar.gz'
