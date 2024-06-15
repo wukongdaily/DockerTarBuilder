@@ -1,0 +1,32 @@
+name: test
+on:
+  workflow_dispatch:
+    inputs:
+      docker_image:
+        description: 'Docker image to pull'
+        required: true
+        default: 'alpine:latest'  # 你可以设置一个默认值
+
+jobs:
+  pull_and_package:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Pull Docker Image
+      run: docker pull ${{ github.event.inputs.docker_image }}
+
+    - name: Save Docker Image to TAR
+      run: docker save ${{ github.event.inputs.docker_image }} -o image.tar
+
+    - name: Compress the TAR file
+      run: tar -czf image.tar.gz image.tar
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: docker-image-tar
+        path: image.tar.gz
+
