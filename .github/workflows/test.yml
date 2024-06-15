@@ -1,11 +1,12 @@
-name: test
+name: Docker Pull and Package
+
 on:
   workflow_dispatch:
     inputs:
-      docker_image:
-        description: 'Docker image to pull'
+      docker_images:
+        description: 'Comma-separated list of Docker images to pull'
         required: true
-        default: 'alpine:latest'  # 你可以设置一个默认值
+        default: 'alpine:latest,ubuntu:latest'  # 你可以设置一个默认值
 
 jobs:
   pull_and_package:
@@ -15,18 +16,20 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Pull Docker Image
-      run: docker pull ${{ github.event.inputs.docker_image }}
+    - name: Pull Docker Images
+      run: |
+        images="${{ github.event.inputs.docker_images }}"
+        IFS=',' read -r -a image_array <<< "$images"
+        for image in "${image_array[@]}"; do
+          docker pull "$image"
+          docker save "$image" -o "${image//\//_}.tar"
+        done
 
-    - name: Save Docker Image to TAR
-      run: docker save ${{ github.event.inputs.docker_image }} -o image.tar
-
-    - name: Compress the TAR file
-      run: tar -czf image.tar.gz image.tar
+    - name: Compress the TAR files
+      run: tar -czf images.tar.gz *.tar
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: docker-image-tar
-        path: image.tar.gz
-
+        name: docker-images-tar
+        path: images.tar.gz
