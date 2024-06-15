@@ -28,7 +28,7 @@ jobs:
         IFS=',' read -r -a platform_array <<< "$platforms"
         for image in "${image_array[@]}"; do
           for platform in "${platform_array[@]}"; do
-            docker pull ${image} --platform ${platform}
+            docker pull "${image}" --platform "${platform}"
             docker save "${image}" -o "${image//\//_}-${platform}.tar"
           done
         done
