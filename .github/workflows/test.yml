@@ -29,7 +29,8 @@ jobs:
         for image in "${image_array[@]}"; do
           for platform in "${platform_array[@]}"; do
             docker pull "${image}" --platform "${platform}"
-            docker save "${image}" -o "$(echo "${image//[:\/]/_}-${platform}.tar")"
+            mkdir -p saved_images
+            docker save "${image}" -o "saved_images/$(echo "${image//[:\/]/_}-${platform}.tar")"
           done
         done
 
