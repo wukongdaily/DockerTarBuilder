@@ -6,11 +6,15 @@ on:
       docker_images:
         description: 'Comma-separated list of Docker images to pull'
         required: true
-        default: 'alpine:latest,ubuntu:latest'  # 你可以设置一个默认值
+        default: 'alpine:latest,ubuntu:latest'  # 设置默认的 Docker 镜像列表
 
 jobs:
   pull_and_package:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        platform: [amd64, arm64]  # 在这里定义你希望支持的平台列表
 
     steps:
     - name: Checkout repository
@@ -21,8 +25,10 @@ jobs:
         images="${{ github.event.inputs.docker_images }}"
         IFS=',' read -r -a image_array <<< "$images"
         for image in "${image_array[@]}"; do
-          docker pull "$image"
-          docker save "$image" -o "${image//\//_}.tar"
+          for platform in ${{ matrix.platform }}; do
+            docker pull "${image}-${platform}"
+            docker save "${image}-${platform}" -o "${image//\//_}-${platform}.tar"
+          done
         done
 
     - name: Compress the TAR files
