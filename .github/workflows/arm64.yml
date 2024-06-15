@@ -22,7 +22,7 @@ jobs:
         IFS=',' read -r -a image_array <<< "$images"
         for image in "${image_array[@]}"; do
           docker pull "${image}" --platform "linux/arm64"
-          docker save "${image}" -o "${image//\//_}-amd64.tar"
+          docker save "${image}" -o "${image//\//_}-arm64.tar"
         done
 
     - name: Compress the TAR files
