@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       docker_images:
-        description: 'Comma-separated list of Docker images to pull'
+        description: '请填写docker镜像名称 多个用英文逗号分开'
         required: true
         default: 'alpine:latest,ubuntu:latest'  # 设置默认的 Docker 镜像列表
 
@@ -26,14 +26,14 @@ jobs:
         done
 
     - name: Compress the TAR files
-      run: tar -czf images.tar.gz *-amd64.tar
+      run: tar -czf arm32-images.tar.gz *-arm32.tar
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
         name: docker-images-tar
-        path: images.tar.gz
+        path: arm32-images.tar.gz
 
     - name: Clean up intermediate files
       run: |
-        rm *-amd64.tar
+        rm *-arm32.tar
