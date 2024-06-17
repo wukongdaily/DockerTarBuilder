@@ -7,3 +7,7 @@
 
 ## 使用说明
 https://wkdaily.cpolar.cn/archives/gc
+
+
+## 相关项目
+https://github.com/wukongdaily/OrangePiShell
