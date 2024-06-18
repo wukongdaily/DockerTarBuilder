@@ -7,6 +7,8 @@
 
 ## 使用说明
 https://wkdaily.cpolar.cn/archives/gc
+## 教学视频
+https://www.bilibili.com/video/BV1EZ421M7mL
 ## 解压工具
 > Windows 上推荐使用7zip<br>
 > macOS 推荐使用MacZip<br>
