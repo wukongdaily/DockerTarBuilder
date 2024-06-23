@@ -1,12 +1,11 @@
 name: x86-64 Pull and Save Docker Image
-
 on:
   workflow_dispatch:
     inputs:
       docker_images:
         description: '请填写docker镜像名称 多个用英文逗号分开'
         required: true
-        default: 'alpine:latest,ubuntu:latest'  # 设置默认的 Docker 镜像列表
+        default: 'alpine:latest'  # 设置默认的 Docker 镜像列表
 
 jobs:
   pull_and_package:
@@ -15,6 +14,11 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+
+    - name: Clean up Docker to free space
+      run: |
+          docker system prune -a -f
+          docker volume prune -f
 
     - name: Pull Docker Images and Package
       run: |
