@@ -5,11 +5,11 @@ on:
       docker_images:
         description: '请填写docker镜像名称 多个用英文逗号分开'
         required: true
-        default: 'alpine:latest'  # 设置默认的 Docker 镜像列表
+        default: 'jitsi/web:stable-9457,jitsi/prosody:stable-9457,jitsi/jicofo:stable-9457,jitsi/jvb:stable-9457'  # 设置默认的 Docker 镜像列表
 
 jobs:
   pull_and_package:
-    runs-on: ubuntu-latest
+    runs-on: jitsi/web:stable-9457
 
     steps:
     - name: Checkout repository
