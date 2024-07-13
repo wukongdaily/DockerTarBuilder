@@ -29,7 +29,7 @@ jobs:
     - name: Compress the TAR files
       run: |
         image="${{ github.event.inputs.docker_images }}"
-        tar -czf "${image//\//_}.tar.gz *amd64.tar
+        tar -czf "${image}.tar.gz *amd64.tar"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
