@@ -1,4 +1,4 @@
-name: "x86_64 docker images"
+name: "x86_64 Pull and Save Docker Image"
 on:
   workflow_dispatch:
     inputs:
