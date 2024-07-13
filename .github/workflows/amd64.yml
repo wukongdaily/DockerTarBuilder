@@ -1,4 +1,4 @@
-name: "${{ github.event.inputs.docker_images }}"
+name: "x86_64 docker images"
 on:
   workflow_dispatch:
     inputs:
