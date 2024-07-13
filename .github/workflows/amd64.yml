@@ -34,7 +34,7 @@ jobs:
 
     - name: Compress the TAR files
       run: |
-        image="${{ github.event.inputs.image_name }}"
+        name="${{ github.event.inputs.image_name }}"
         tar -czf "${name}.tar.gz" *amd64.tar
 
     - name: Upload artifact
