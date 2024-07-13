@@ -31,6 +31,7 @@ jobs:
         name="${{ github.event.inputs.image_name }}"
         docker pull "${image}" --platform "linux/amd64"
         docker save "${image}" -o "${name}-amd64.tar"
+        echo "${image}.replace(":","_")"
 
     - name: Compress the TAR files
       run: |
