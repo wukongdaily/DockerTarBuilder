@@ -7,6 +7,11 @@ on:
         required: true
         default: 'alpine:latest'  # 设置默认的 Docker 镜像列表
 
+      image_name:
+        description: '请填写docke'
+        required: true
+        default: 'alpine'  # 设置默认的 Docker 镜像列表
+
 jobs:
   pull_and_package:
     runs-on: ubuntu-latest
@@ -23,19 +28,20 @@ jobs:
     - name: Pull Docker Images and Package
       run: |
         image="${{ github.event.inputs.docker_images }}"
+        name="${{ github.event.inputs.image_name }}"
         docker pull "${image}" --platform "linux/amd64"
-        docker save "${image}" -o "${image}-amd64.tar"
+        docker save "${image}" -o "${name}-amd64.tar"
 
     - name: Compress the TAR files
       run: |
-        image="${{ github.event.inputs.docker_images }}"
-        tar -czf "${image}.tar.gz" *amd64.tar
+        image="${{ github.event.inputs.image_name }}"
+        tar -czf "${name}.tar.gz" *amd64.tar
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: "${{ github.event.inputs.docker_images }}"
-        path: "${{ github.event.inputs.docker_images }}.tar.gz"
+        name: "${{ github.event.inputs.image_name }}"
+        path: "${{ github.event.inputs.image_name }}.tar.gz"
         retention-days: 1  # 将保留天数设置为 1 天 最多可设置90天
 
     - name: Clean up intermediate files
