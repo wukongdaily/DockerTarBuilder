@@ -30,7 +30,7 @@ jobs:
         done
 
     - name: Compress the TAR files
-      run: tar -czf x86-64-images.tar.gz *-amd64.tar
+      run: tar -czf x86-64.tar.gz *-amd64.tar
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
