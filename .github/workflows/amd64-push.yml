@@ -1,1 +1,38 @@
 name: x86-64 Pull and Push Docker Image
+on:
+  workflow_dispatch:
+    inputs:
+      docker_images:
+        description: 'docker image names, comma separated'
+        required: true
+        default: 'alpine:latest'  # default Docker image
+
+jobs:
+  pull_and_push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Clean up Docker to free space
+      run: |
+        docker system prune -a -f
+        docker volume prune -f
+
+    - name: Log in to target registry
+      run: |
+        REGISTRY_HOST=$(echo "${{ secrets.TARGET_REGISTRY }}" | awk -F/ '{print $3}')
+        echo "${{ secrets.TARGET_REGISTRY_PASSWORD }}" | docker login $REGISTRY_HOST -u ${{ secrets.TARGET_REGISTRY_USERNAME }} --password-stdin
+
+    - name: Pull docker images and push
+      run: |
+        images="${{ github.event.inputs.docker_images }}"
+        IFS=',' read -r -a image_array <<< "$images"
+        for image in "${image_array[@]}"; do
+          image_name=$(basename "$image")
+          new_image="${{ secrets.TARGET_REGISTRY }}${image_name}"
+          docker pull "${image}" --platform "linux/amd64"
+          docker tag "${image}" "${new_image}"
+          docker push "${new_image}"
+        done
