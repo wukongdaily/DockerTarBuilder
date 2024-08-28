@@ -12,17 +12,17 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-    - name: Clean up Docker to free space
-      run: |
-        docker system prune -a -f
-        docker volume prune -f
+    #- name: Clean up Docker to free space
+    #  run: |
+    #    docker system prune -a -f
+    #    docker volume prune -f
     - name: Log in to target registry
       env:
         TARGET_REGISTRY: ${{ secrets.TARGET_REGISTRY }}
         TARGET_REGISTRY_USERNAME: ${{ secrets.TARGET_REGISTRY_USERNAME }}
         TARGET_REGISTRY_PASSWORD: ${{ secrets.TARGET_REGISTRY_PASSWORD }}
       run: |
-        REGISTRY_HOST=$(echo "$TARGET_REGISTRY" | awk -F/ '{print $3}')
+        REGISTRY_HOST=$(echo "$TARGET_REGISTRY" | awk -F/ '{print $1}')
         echo "$TARGET_REGISTRY_PASSWORD" | docker login "$REGISTRY_HOST" -u "$TARGET_REGISTRY_USERNAME" --password-stdin
     - name: Pull docker images and push
       env:
