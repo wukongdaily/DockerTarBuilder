@@ -12,9 +12,6 @@ on:
       aliyun_docker_registry_url:
         description: '阿里云镜像仓库地址'
         required: true
-      aliyun_docker_registry:
-        description: '阿里云镜像仓库'
-        required: true
       docker_images:
         description: '请填写docker镜像名称 多个用英文逗号分开'
         required: true
@@ -35,6 +32,6 @@ jobs:
         IFS=',' read -r -a image_array <<< "$images"
         for image in "${image_array[@]}"; do
           docker pull "${image}"
-          docker tag "${image}" "${{ github.event.inputs.aliyun_docker_registry_url }}/${{ github.event.inputs.aliyun_docker_registry }}/${image}"
-          docker push "${{ github.event.inputs.aliyun_docker_registry_url }}/${{ github.event.inputs.aliyun_docker_registry }}/${image}"
+          docker tag "${image}" "${{ github.event.inputs.aliyun_docker_registry_url }}/${image}"
+          docker push "${{ github.event.inputs.aliyun_docker_registry_url }}/${image}"
         done
