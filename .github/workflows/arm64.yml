@@ -35,5 +35,6 @@ jobs:
         IFS=',' read -r -a image_array <<< "$images"
         for image in "${image_array[@]}"; do
           docker pull "${image}"
+          docker tag "${image}" "${{ github.event.inputs.aliyun_docker_registry_url }}/${{ github.event.inputs.aliyun_docker_registry }}/${image}"
           docker push "${{ github.event.inputs.aliyun_docker_registry_url }}/${{ github.event.inputs.aliyun_docker_registry }}/${image}"
         done
