@@ -30,8 +30,7 @@ jobs:
 
     - name: Pull Docker Images and Package
       run: |
-        docker login --username="${{ github.event.inputs.aliyun_username }}" "${{ github.event.inputs.aliyun_docker_registry_url }}" --password-stdin
-        "${{ github.event.inputs.aliyun_password }}"
+        docker login --username="${{ github.event.inputs.aliyun_username }}" "${{ github.event.inputs.aliyun_docker_registry_url }}" --password="${{ github.event.inputs.aliyun_password }}"
         images="${{ github.event.inputs.docker_images }}"
         IFS=',' read -r -a image_array <<< "$images"
         for image in "${image_array[@]}"; do
