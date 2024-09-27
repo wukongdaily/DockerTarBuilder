@@ -3,6 +3,18 @@ name: ARM64 Pull and Save Docker Image
 on:
   workflow_dispatch:
     inputs:
+      aliyun_username:
+        description: '阿里云用户名'
+        required: true
+      aliyun_password:
+        description: '阿里云镜像仓库密码'
+        required: true
+      aliyun_docker_registry_url:
+        description: '阿里云镜像仓库地址'
+        required: true
+      aliyun_docker_registry:
+        description: '阿里云镜像仓库'
+        required: true
       docker_images:
         description: '请填写docker镜像名称 多个用英文逗号分开'
         required: true
@@ -18,23 +30,11 @@ jobs:
 
     - name: Pull Docker Images and Package
       run: |
+        docker login --username="${{ github.event.inputs.aliyun_username }}" "${{ github.event.inputs.aliyun_docker_registry }}" --password-stdin
+        "${{ github.event.inputs.aliyun_password }}"
         images="${{ github.event.inputs.docker_images }}"
         IFS=',' read -r -a image_array <<< "$images"
         for image in "${image_array[@]}"; do
-          docker pull "${image}" --platform "linux/arm64"
-          docker save "${image}" -o "${image//\//_}-arm64.tar"
+          docker pull "${image}"
+          docker push "${{ github.event.inputs.aliyun_docker_registry_url }}/${image}"
         done
-
-    - name: Compress the TAR files
-      run: tar -czf arm64-images.tar.gz *-arm64.tar
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: docker-images-tar
-        path: arm64-images.tar.gz
-        retention-days: 1  # 将保留天数设置为 1 天 最多可设置90天
-
-    - name: Clean up intermediate files
-      run: |
-        rm *-arm64.tar
