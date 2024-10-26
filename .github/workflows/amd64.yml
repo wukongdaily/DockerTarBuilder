@@ -1,9 +1,9 @@
-name: x86-64 Pull and Save Docker Image
+name: jellyfin/jellyfin x86-64 Pull and Save Docker Image
 on:
   workflow_dispatch:
     inputs:
       docker_images:
-        description: '请填写docker镜像名称 多个用英文逗号分开'
+        description: 'jellyfin/jellyfin'
         required: true
         default: 'alpine:latest'  # 设置默认的 Docker 镜像列表
 
