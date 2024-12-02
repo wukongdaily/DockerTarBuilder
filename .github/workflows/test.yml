@@ -1,4 +1,5 @@
 name: TESTAAA
+
 on:
   workflow_dispatch:
     inputs:
@@ -42,7 +43,7 @@ jobs:
     - name: Verify compressed file
       run: ls -al $GITHUB_WORKSPACE/x86-64-images.tar.gz
 
-    - name: Upload artifact to GitHub Release
+    - name: Create GitHub Release with artifact
       uses: ncipollo/release-action@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -53,3 +54,5 @@ jobs:
           - **镜像列表**: ${{ github.event.inputs.docker_images }}
           - 压缩文件名: `x86-64-images.tar.gz`
         files: $GITHUB_WORKSPACE/x86-64-images.tar.gz
+        prerelease: false
+        draft: false
