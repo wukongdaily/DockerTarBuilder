@@ -1,4 +1,4 @@
-name: test
+name: x86-64 Pull and Save Docker Image
 
 on:
   workflow_dispatch:
@@ -6,11 +6,11 @@ on:
       docker_images:
         description: '请填写docker镜像名称 多个用英文逗号分开'
         required: true
-        default: 'wukongdaily/box:latest'  
+        default: 'alpine:latest'
       release_tag:
         description: 'Release tag (e.g., v1.0.0)'
         required: true
-        default: 'v1.0.0'
+        default: 'v1.0.1'
 
 jobs:
   pull_and_package:
@@ -22,8 +22,8 @@ jobs:
 
     - name: Clean up Docker to free space
       run: |
-          docker system prune -a -f
-          docker volume prune -f
+        docker system prune -a -f
+        docker volume prune -f
 
     - name: Pull Docker Images and Package
       run: |
@@ -35,24 +35,19 @@ jobs:
         done
 
     - name: Compress the TAR files
-      run: tar -czf x86-64-images.tar.gz *-amd64.tar
+      run: tar -czf $GITHUB_WORKSPACE/x86-64-images.tar.gz *-amd64.tar
+
+    - name: List files in workspace
+      run: ls -al $GITHUB_WORKSPACE
 
     - name: Upload artifact to GitHub Release
       uses: ncipollo/release-action@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        tag: ${{ github.event.inputs.release_tag }} # 使用用户输入的标签
+        tag: ${{ github.event.inputs.release_tag }}
         release_name: "Docker Images for ${{ github.event.inputs.release_tag }}"
         body: |
           以下是打包好的 Docker 镜像文件：
           - **镜像列表**: ${{ github.event.inputs.docker_images }}
           - 压缩文件名: `x86-64-images.tar.gz`
-        draft: false
-        prerelease: false
-        files: |
-          x86-64-images.tar.gz
-
-    - name: Clean up intermediate files
-      run: |
-        rm *-amd64.tar
-        rm x86-64-images.tar.gz
+        files: $GITHUB_WORKSPACE/x86-64-images.tar.gz
