@@ -1,4 +1,4 @@
-name: TEST
+name: TESTAAA
 on:
   workflow_dispatch:
     inputs:
@@ -9,7 +9,7 @@ on:
       release_tag:
         description: 'Release tag (e.g., v1.0.0)'
         required: true
-        default: 'v1.0.1'
+        default: 'v1.0.0'
 
 jobs:
   pull_and_package:
@@ -38,6 +38,9 @@ jobs:
 
     - name: List files in workspace
       run: ls -al $GITHUB_WORKSPACE
+
+    - name: Verify compressed file
+      run: ls -al $GITHUB_WORKSPACE/x86-64-images.tar.gz
 
     - name: Upload artifact to GitHub Release
       uses: ncipollo/release-action@v1
