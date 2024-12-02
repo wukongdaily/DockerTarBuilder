@@ -1,5 +1,4 @@
-name: x86-64 Pull and Save Docker Image
-
+name: TEST
 on:
   workflow_dispatch:
     inputs:
