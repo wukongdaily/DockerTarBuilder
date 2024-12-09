@@ -1,0 +1,59 @@
+name: Get-AMD64-Docker-Images-Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      docker_images:
+        description: '请填写docker镜像名称，多个用英文逗号分开'
+        required: true
+        default: 'alpine:latest,alpine/curl,busybox:stable-glibc'
+
+jobs:
+  pull_and_package:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Pull Docker Images and Package
+        run: |
+          images="${{ github.event.inputs.docker_images }}"
+          IFS=',' read -r -a image_array <<< "$images"
+          for image in "${image_array[@]}"; do
+            docker pull "${image}" --platform "linux/amd64"
+            image_name="${image//\//_}"
+            image_name="${image_name//:/_}"
+            docker save "${image}" -o "${image_name}-amd64.tar"
+            tar -czf "${image_name}.tar.gz" "${image_name}-amd64.tar"; rm "${image_name}-amd64.tar"
+          done
+
+      - name: List generated files (debug step)
+        run: |
+          echo "Preparing docker images list (.tar.gz) files:"
+          find $GITHUB_WORKSPACE -name "*.tar.gz"
+          release_name=$(TZ="Asia/Shanghai" date +'%Y-%m-%d %H:%M Build')
+          echo "RELEASE_NAME=$release_name" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@master
+        with:
+          tag_name: DockerTarBuilder
+          name: ${{ env.RELEASE_NAME }}
+          body: |
+            ![GitHub Release](https://img.shields.io/github/v/release/wukongdaily/DockerTarBuilder?style=for-the-badge&logoSize=amg&labelColor=%23FFBF00&color=%2300C598)
+            > Automatically generated release docker images for x86-64
+            ### How to use? For example
+            `docker load -i alpine_latest.tar.gz `
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Docker images as release assets
+        uses: softprops/action-gh-release@master
+        with:
+          tag_name: DockerTarBuilder
+          files: ${{ github.workspace }}/*.tar.gz
+          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
