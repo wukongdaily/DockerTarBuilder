@@ -8,12 +8,15 @@
 ## 使用说明
 https://wkdaily.cpolar.top/archives/gc
 ## 2024-12-09 新增功能：
-> 增加了新的工作流 可以将docker镜像转存到自己项目的Github Release文件里<br>
+> 增加了新的工作流<br>
+> 可以将docker镜像转存到自己项目的Github Release文件里<br>
 
-> 这里 [![GitHub Release](https://img.shields.io/github/v/release/wukongdaily/DockerTarBuilder?style=flat-square&label=docker%E7%A6%BB%E7%BA%BF%E5%8C%85%E8%BD%AC%E5%AD%98%E5%88%B0Release&labelColor=%23628eeb&color=%236a3b8d)](https://github.com/wukongdaily/DockerTarBuilder/releases)
+> [![Github](https://img.shields.io/badge/RELEASE:DockerTarBuilder-123456?logo=github&logoColor=fff&labelColor=green&style=for-the-badge)](https://github.com/wukongdaily/DockerTarBuilder/releases)<br>
 
-> Github Release文件若下载吃力,可以使用以下站点来加速下载<br>
-https://wkdaily.cpolar.top/archives/1
+> 如果Github Release文件下载缓慢 你可以在<br>         
+
+> [![Github](https://img.shields.io/badge/国内加速站下载-FC7C0D?logo=github&logoColor=fff&labelColor=000&style=for-the-badge)](https://wkdaily.cpolar.top/archives/1)
+ 
 ## 教学视频
 https://www.bilibili.com/video/BV1EZ421M7mL
 ## 解压工具
