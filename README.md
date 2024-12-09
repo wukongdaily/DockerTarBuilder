@@ -6,7 +6,11 @@
 它是一个工作流。可快速构建指定架构/平台的docker镜像
 
 ## 使用说明
-https://wkdaily.cpolar.cn/archives/gc
+https://wkdaily.cpolar.top/archives/gc
+## 2024-12-09 新增功能：
+> 增加了新的工作流 可以将docker镜像转存到Github Release文件里<br>
+> Github Release文件若下载吃力可以使用以下站点来加速下载<br>
+https://wkdaily.cpolar.top/archives/1
 ## 教学视频
 https://www.bilibili.com/video/BV1EZ421M7mL
 ## 解压工具
