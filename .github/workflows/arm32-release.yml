@@ -40,10 +40,11 @@ jobs:
           tag_name: DockerTarBuilder-ARM32
           name: ${{ env.RELEASE_NAME }} for ARM32
           body: |
-            ![GitHub Release](https://img.shields.io/github/v/release/wukongdaily/DockerTarBuilder?display_name=release&style=for-the-badge&logoSize=amg&labelColor=%23FFBF00&color=%2300C598)
-            > Automatically generated release docker images for arm32
+            [![Github](https://img.shields.io/badge/RELEASE:DockerTarBuilder-123456?logo=github&logoColor=fff&labelColor=green&style=for-the-badge)](https://www.bilibili.com/video/BV1EZ421M7mL)
             ### How to use? For example
             `docker load -i alpine_latest.tar.gz `
+            ### Video teaching
+            [![Bilibili](https://img.shields.io/badge/Bilibili-123456?logo=bilibili&logoColor=fff&labelColor=fb7299)](https://www.bilibili.com/video/BV1EZ421M7mL)
           draft: false
           prerelease: false
         env:
