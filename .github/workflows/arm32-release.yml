@@ -38,9 +38,9 @@ jobs:
         uses: softprops/action-gh-release@master
         with:
           tag_name: DockerTarBuilder-ARM32
-          name: ${{ env.RELEASE_NAME }}
+          name: ${{ env.RELEASE_NAME }} for ARM32
           body: |
-            ![GitHub Release](https://img.shields.io/github/v/release/wukongdaily/DockerTarBuilder?style=for-the-badge&logoSize=amg&labelColor=%23FFBF00&color=%2300C598)
+            ![GitHub Release](https://img.shields.io/github/v/release/wukongdaily/DockerTarBuilder?display_name=release&style=for-the-badge&logoSize=amg&labelColor=%23FFBF00&color=%2300C598)
             > Automatically generated release docker images for arm32
             ### How to use? For example
             `docker load -i alpine_latest.tar.gz `
