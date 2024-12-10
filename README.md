@@ -3,10 +3,15 @@
 ![GitHub Forks](https://img.shields.io/github/forks/wukongdaily/DockerTarBuilder.svg?style=flat&logo=appveyor&label=Forks&logo=github)
 
 ## 🤔 这是什么？
-它是一个工作流。可快速构建指定架构/平台的docker镜像
+它是一个工作流。可快速构建指定架构/平台的单个或多个docker镜像 并存储在Artifact文件或Release文件
 
 ## 使用说明
 https://wkdaily.cpolar.top/archives/gc
+> 如果你的docker镜像小于2GB 你可以使用红色框框这三种Release工作流<br> 
+> 如果你的docker镜像大于2GB且小于5GB 你可以使用蓝色框框的这三种Artifact工作流
+
+<img src="https://github.com/user-attachments/assets/e537c746-ec4f-4588-9315-ecf73a05b8d0" width="40%" />
+
 ## 2024-12-09 新增功能：
 > 增加了新的工作流<br>
 > 可以将docker镜像转存到自己项目的Github Release文件里<br>
