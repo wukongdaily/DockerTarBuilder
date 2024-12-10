@@ -20,11 +20,12 @@ jobs:
           images="${{ github.event.inputs.docker_images }}"
           IFS=',' read -r -a image_array <<< "$images"
           for image in "${image_array[@]}"; do
-            docker pull "${image}" --platform "linux/arm64"
+            docker pull "${image}" --platform "linux/arm/v7"
             image_name="${image//\//_}"
             image_name="${image_name//:/_}"
-            docker save "${image}" -o "${image_name}-amd64.tar"
-            tar -czf "${image_name}.tar.gz" "${image_name}-amd64.tar"; rm "${image_name}-amd64.tar"
+            docker save "${image}" -o "${image_name}-amd32.tar"
+            gzip -c "${image_name}-amd32.tar" > "${image_name}-amd32.tar.gz"
+            rm "${image_name}-amd32.tar"
           done
 
       - name: List generated files (debug step)

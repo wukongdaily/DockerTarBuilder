@@ -25,7 +25,8 @@ jobs:
             image_name="${image//\//_}"
             image_name="${image_name//:/_}"
             docker save "${image}" -o "${image_name}-arm64.tar"
-            tar -czf "${image_name}.tar.gz" "${image_name}-arm64.tar"; rm "${image_name}-arm64.tar"
+            gzip -c "${image_name}-arm64.tar" > "${image_name}-arm64.tar.gz"
+            rm "${image_name}-arm64.tar"
           done
 
     - name: Upload artifact
