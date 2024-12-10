@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       docker_images:
-        description: '请填写docker镜像名称，多个用英文逗号分开'
+        description: '请填写docker镜像名称,多个用英文逗号分开'
         required: true
         default: 'alpine:latest,alpine/curl,busybox:stable-glibc'
 

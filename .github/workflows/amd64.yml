@@ -5,11 +5,11 @@ on:
       docker_images:
         description: '请填写docker镜像名称 多个用英文逗号分开'
         required: true
-        default: 'alpine:latest'  # 设置默认的 Docker 镜像列表
+        default: 'alpine:latest,busybox:stable-glibc'  # 设置默认的 Docker 镜像列表
 
 jobs:
   pull_and_package:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout repository
@@ -23,22 +23,18 @@ jobs:
     - name: Pull Docker Images and Package
       run: |
         images="${{ github.event.inputs.docker_images }}"
-        IFS=',' read -r -a image_array <<< "$images"
-        for image in "${image_array[@]}"; do
-          docker pull "${image}" --platform "linux/amd64"
-          docker save "${image}" -o "${image//\//_}-amd64.tar"
-        done
-
-    - name: Compress the TAR files
-      run: tar -czf x86-64-images.tar.gz *-amd64.tar
+          IFS=',' read -r -a image_array <<< "$images"
+          for image in "${image_array[@]}"; do
+            docker pull "${image}" --platform "linux/amd64"
+            image_name="${image//\//_}"
+            image_name="${image_name//:/_}"
+            docker save "${image}" -o "${image_name}-amd64.tar"
+            tar -czf "${image_name}.tar.gz" "${image_name}-amd64.tar"; rm "${image_name}-amd64.tar"
+          done
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: docker-images-tar
-        path: x86-64-images.tar.gz
+        name: my-artifact
+        path: ${{ github.workspace }}/*.tar.gz
         retention-days: 1  # 将保留天数设置为 1 天 最多可设置90天
-
-    - name: Clean up intermediate files
-      run: |
-        rm *-amd64.tar
