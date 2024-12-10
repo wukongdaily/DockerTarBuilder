@@ -23,9 +23,9 @@ jobs:
             docker pull "${image}" --platform "linux/arm/v7"
             image_name="${image//\//_}"
             image_name="${image_name//:/_}"
-            docker save "${image}" -o "${image_name}-amd32.tar"
-            gzip -c "${image_name}-amd32.tar" > "${image_name}-amd32.tar.gz"
-            rm "${image_name}-amd32.tar"
+            docker save "${image}" -o "${image_name}-arm32.tar"
+            gzip -c "${image_name}-arm32.tar" > "${image_name}-arm32.tar.gz"
+            rm "${image_name}-arm32.tar"
           done
 
       - name: List generated files (debug step)
