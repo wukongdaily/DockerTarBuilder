@@ -52,7 +52,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Docker images as release assets
-        uses: softprops/action-gh-release@master
+        uses: softprops/action-gh-release@v2.1.0
         with:
           tag_name: DockerTarBuilder-ARM32
           files: ${{ github.workspace }}/*.tar.gz
