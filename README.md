@@ -24,14 +24,14 @@ https://wkdaily.cpolar.top/archives/gc
 > [![Github](https://img.shields.io/badge/国内加速站下载-FC7C0D?logo=github&logoColor=fff&labelColor=000&style=for-the-badge)](https://wkdaily.cpolar.top/archives/1)
  
 ## 教学视频
-https://www.bilibili.com/video/BV1EZ421M7mL
+https://www.bilibili.com/video/BV1EZ421M7mL<br>
 https://www.bilibili.com/video/BV1yyq6YREdF
 ## 解压工具
 > Windows 上推荐使用7zip<br>
 > macOS 推荐使用MacZip<br>
 > Linux上推荐直接用tar 命令
 
-## 相关项目
-https://github.com/wukongdaily/OrangePiShell
+## ❤️其它GitHub Action项目推荐🌟 （建议收藏）⬇️
+https://github.com/wukongdaily/RunFilesBuilder
 ## 在哪里可以搜索或查询docker镜像的详细信息
 ### [查询镜像的详细信息 点击这里直达](https://docker.fxxk.dedyn.io/)
