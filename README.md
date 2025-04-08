@@ -33,6 +33,11 @@ https://www.bilibili.com/video/BV1yyq6YREdF
 > Linux上推荐直接用tar 命令
 
 ## ❤️其它GitHub Action项目推荐🌟 （建议收藏）⬇️
-https://github.com/wukongdaily/RunFilesBuilder
+- ### [一键生成run插件] 🆕
+- https://github.com/wukongdaily/RunFilesBuilder<br>
+- ### [一键构建自定义软件包大小的Immortalwrt] 🆕
+- https://github.com/wukongdaily/AutoBuildImmortalWrt
+- ### [OpenWrt/Armbian 安装器ISO] 🆕
+- https://github.com/wukongdaily/armbian-installer
 ## 在哪里可以搜索或查询docker镜像的详细信息
 ### [查询镜像的详细信息 点击这里直达](https://docker.fxxk.dedyn.io/)
