@@ -1,0 +1,39 @@
+name: ARM64 Pull and Save Docker Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      docker_images:
+        description: '请填写docker镜像名称,仅支持单个镜像'
+        required: true
+        default: 'alpine:latest'  # 设置默认的 Docker 镜像
+
+jobs:
+  pull_and_package:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Pull Docker Images and Package
+      run: |
+        images="${{ github.event.inputs.docker_images }}"
+          IFS=',' read -r -a image_array <<< "$images"
+          for image in "${image_array[@]}"; do
+            docker pull "${image}" --platform "linux/arm64"
+            image_name="${image//\//_}"
+            image_name="${image_name//:/_}"
+            docker save "${image}" -o "${image_name}-arm64.tar"
+            gzip -c "${image_name}-arm64.tar" > "${image_name}-arm64.tar.gz"
+            rm "${image_name}-arm64.tar"
+            echo "image_name=${image_name}" >> "$GITHUB_ENV"
+          done
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifact-${{env.image_name}}-x64
+        path: ${{ github.workspace }}/*.tar.gz
+        retention-days: 1  # 将保留天数设置为 1 天 最多可设置90天
+
