@@ -1,4 +1,5 @@
 name: Get-AMD64-Docker-Images-Release
+run-name: Docker Image(${{github.event.inputs.docker_images}})
 
 on:
   workflow_dispatch:
