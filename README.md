@@ -17,12 +17,17 @@ https://wkdaily.cpolar.top/archives/gc
 ## 2024-12-09 新增功能：
 > 增加了新的工作流<br>
 > 可以将docker镜像转存到自己项目的Github Release文件里<br>
+## 2025-5月 新增下载提醒
+对于Release文件，可以尝试直接使用“迅雷下载”，有一定概率加速。比如我这个项目里的Release 由于很多人下载过了，所以用迅雷下载很快。
+如果迅雷速度是0 就把地址套用一下 下面的这些国内加速站的前缀 然后在复制到迅雷吧 这样下载大文件很快。
+
+> [![Github](https://img.shields.io/badge/国内加速站下载-FC7C0D?logo=github&logoColor=fff&labelColor=000&style=for-the-badge)](https://wkdaily.cpolar.top/archives/1)
 
 > [![Github](https://img.shields.io/badge/RELEASE:DockerTarBuilder-123456?logo=github&logoColor=fff&labelColor=green&style=for-the-badge)](https://github.com/wukongdaily/DockerTarBuilder/releases)<br>
 
 > 如果Github Release文件下载缓慢 你可以在<br>         
 
-> [![Github](https://img.shields.io/badge/国内加速站下载-FC7C0D?logo=github&logoColor=fff&labelColor=000&style=for-the-badge)](https://wkdaily.cpolar.top/archives/1)
+> [![Github](https://img.shields.io/badge/国内加速站前缀套用点此处查看网址列表-FC7C0D?logo=github&logoColor=fff&labelColor=000&style=for-the-badge)](https://wkdaily.cpolar.top/archives/1)
  
 ## 教学视频
 https://www.bilibili.com/video/BV1EZ421M7mL<br>
