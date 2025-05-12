@@ -32,6 +32,8 @@ https://wkdaily.cpolar.top/archives/gc
 ## 教学视频
 https://www.bilibili.com/video/BV1EZ421M7mL<br>
 https://www.bilibili.com/video/BV1yyq6YREdF
+## 新手常见问题必看
+https://github.com/wukongdaily/DockerTarBuilder/wiki
 ## 解压工具
 > Windows 上推荐使用7zip<br>
 > macOS 推荐使用MacZip<br>
