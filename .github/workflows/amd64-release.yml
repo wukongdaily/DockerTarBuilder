@@ -1,5 +1,8 @@
 name: Get-AMD64-Docker-Images-Release
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
     inputs:
