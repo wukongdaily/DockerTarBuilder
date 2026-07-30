@@ -8,6 +8,9 @@ on:
         required: true
         default: 'alpine:latest,alpine/curl,busybox:stable-glibc'
 
+permissions:
+  contents: write
+
 jobs:
   pull_and_package:
     runs-on: ubuntu-22.04
