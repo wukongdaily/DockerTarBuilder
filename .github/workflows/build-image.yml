@@ -1,0 +1,127 @@
+name: Build Dockerfile to TAR
+
+on:
+    workflow_dispatch:
+        inputs:
+            repository:
+                description: "源码仓库，例如 Faker523/MyProject"
+                required: true
+                type: string
+
+            ref:
+                description: "分支或 Tag，例如 main / master / v1.0.0"
+                required: true
+                default: "main"
+                type: string
+
+            dockerfile:
+                description: "Dockerfile 路径，相对于源码仓库根目录"
+                required: true
+                default: "Dockerfile"
+                type: string
+
+            context:
+                description: "Docker Build Context，相对于源码仓库根目录"
+                required: true
+                default: "."
+                type: string
+
+            image_name:
+                description: "构建后的镜像名称，例如 myapp:latest"
+                required: true
+                default: "myapp:latest"
+                type: string
+
+            platform:
+                description: "目标平台"
+                required: true
+                default: "linux/amd64"
+                type: choice
+                options:
+                    - linux/amd64
+                    - linux/arm64
+
+jobs:
+    build:
+        name: Build Docker Image
+        runs-on: ubuntu-22.04
+
+        permissions:
+            contents: read
+
+        steps:
+            # 下载你真正需要构建的源码
+            - name: Checkout source repository
+              uses: actions/checkout@v6
+              with:
+                  repository: ${{ inputs.repository }}
+                  ref: ${{ inputs.ref }}
+                  path: source
+                  fetch-depth: 1
+
+            # ARM64 构建需要 QEMU
+            - name: Set up QEMU
+              uses: docker/setup-qemu-action@v3
+
+            # 安装 / 配置 Docker Buildx
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v4
+
+            - name: Show build information
+              env:
+                  REPOSITORY: ${{ inputs.repository }}
+                  REF: ${{ inputs.ref }}
+                  DOCKERFILE: ${{ inputs.dockerfile }}
+                  CONTEXT: ${{ inputs.context }}
+                  IMAGE_NAME: ${{ inputs.image_name }}
+                  PLATFORM: ${{ inputs.platform }}
+              run: |
+                  echo "Repository : $REPOSITORY"
+                  echo "Ref        : $REF"
+                  echo "Dockerfile : $DOCKERFILE"
+                  echo "Context    : $CONTEXT"
+                  echo "Image      : $IMAGE_NAME"
+                  echo "Platform   : $PLATFORM"
+
+            - name: Build Docker image
+              shell: bash
+              env:
+                  DOCKERFILE: ${{ inputs.dockerfile }}
+                  CONTEXT: ${{ inputs.context }}
+                  IMAGE_NAME: ${{ inputs.image_name }}
+                  PLATFORM: ${{ inputs.platform }}
+              run: |
+                  set -euo pipefail
+
+                  mkdir -p "$GITHUB_WORKSPACE/dist"
+
+                  SAFE_IMAGE_NAME="$(echo "$IMAGE_NAME" | sed 's#[/:@]#_#g')"
+                  SAFE_PLATFORM="$(echo "$PLATFORM" | sed 's#/#_#g')"
+
+                  OUTPUT_FILE="$GITHUB_WORKSPACE/dist/${SAFE_IMAGE_NAME}-${SAFE_PLATFORM}.tar"
+
+                  cd "$GITHUB_WORKSPACE/source"
+
+                  docker buildx build \
+                    --platform "$PLATFORM" \
+                    --pull \
+                    --file "$DOCKERFILE" \
+                    --tag "$IMAGE_NAME" \
+                    --output "type=docker,dest=$OUTPUT_FILE" \
+                    "$CONTEXT"
+
+                  echo "Build finished:"
+                  ls -lh "$OUTPUT_FILE"
+
+            - name: Compress Docker image
+              run: |
+                  gzip -9 "$GITHUB_WORKSPACE"/dist/*.tar
+                  ls -lh "$GITHUB_WORKSPACE"/dist/
+
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: docker-image-${{ github.run_id }}
+                  path: dist/*.tar.gz
+                  retention-days: 3
+                  compression-level: 0
